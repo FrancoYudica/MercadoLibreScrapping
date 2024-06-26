@@ -1,0 +1,4 @@
+{
+    "Precio": "//*[@id=\"price\"]/div/div/div/span/span/span[2]",
+    "Ubicación": "//*[@id=\"seller_profile\"]/ul/div[4]/div/p"
+}

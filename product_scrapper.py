@@ -5,8 +5,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from bs4 import BeautifulSoup
+from typing import Dict
 
-class MercadoProduct:
+class ProductScrapper:
 
     def __init__(self, url, webdriver: WebDriver) -> None:
         self.url: str = url
@@ -15,10 +16,11 @@ class MercadoProduct:
 
         # Stores data classified by features
         self.data = {}
-        self.successful_scrap = False
 
-    def scrap_x_paths(self, named_x_paths: dict):
+    def webdriver_url(self):
         self.webdriver.get(self.url)
+
+    def scrap_x_paths(self, named_x_paths: Dict[str, str]) -> bool:
         self.webdriver.refresh()
 
         # Get page source and parse with BeautifulSoup
@@ -36,15 +38,17 @@ class MercadoProduct:
             
             else:
                 self.data[name] = None
+        
+        return True
       
     # Scraps all the features table and stores all attributes
-    def scrap_features_tables(self):
+    def scrap_features_tables(self) -> bool:
+
         # Wait for the button to be present and click it
         try:
             button = WebDriverWait(self.webdriver, self.timeout).until(
                 EC.element_to_be_clickable((By.CLASS_NAME, "ui-pdp-collapsable__action"))
             )
-            print("Button found!")
 
             # Scroll element into view in order to click
             self.webdriver.execute_script("arguments[0].scrollIntoView();", button)
@@ -57,7 +61,7 @@ class MercadoProduct:
             )
         except TimeoutException:
             print("Timed out waiting for button or specs table to load")
-            return
+            return False
 
         # Get page source and parse with BeautifulSoup
         soup = BeautifulSoup(self.webdriver.page_source, "html.parser")
@@ -66,7 +70,7 @@ class MercadoProduct:
         div_specs = soup.find_all("div", {"class": "ui-vpp-striped-specs__table"})
         if not div_specs:
             print("Div with class 'ui-vpp-striped-specs__table' not found")
-            return
+            return False
         
         for div_spec in div_specs:
 
@@ -80,3 +84,5 @@ class MercadoProduct:
                     continue
 
                 self.data[div_with_row_name.text] = div_with_row_value.text
+
+        return True

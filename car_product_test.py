@@ -1,4 +1,4 @@
-from mercado_product import MercadoProduct
+from product_scrapper import ProductScrapper
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
@@ -11,7 +11,7 @@ if __name__ == "__main__":
     options.add_argument('--disable-dev-shm-usage')
     
     driver = webdriver.Chrome(options=options)
-    product = MercadoProduct(test_url, driver)
+    product = ProductScrapper(test_url, driver)
 
     x_paths = {
         "name": "/html/body/main/div[2]/div[5]/div/div[1]/div/div[1]/div/div[1]/div/div[2]/h1",
