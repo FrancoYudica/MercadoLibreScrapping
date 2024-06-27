@@ -28,11 +28,15 @@ class SearchScrapper:
             # Access link element <a></a>
             a_element = div_element.find("a", {"class": "ui-search-item__group__element ui-search-link__title-card ui-search-link"})
             url = a_element.get("href")
-            self.products_url.add(url)
-            self.scrapped_count += 1
 
-            progress = int(self.scrapped_count / self.target_product_count * 100.0)
-            print(f" > {progress}%. Added URL: {url}")
+            # Adds URL if it isn't previously added
+            if url not in self.products_url:
+
+                self.products_url.add(url)
+                self.scrapped_count += 1
+
+                progress = int(self.scrapped_count / self.target_product_count * 100.0)
+                print(f" > {progress}%. Added URL: {url}")
 
 
     def _scrap_pages(self, source_url):
@@ -62,5 +66,7 @@ class SearchScrapper:
 
 if __name__ == "__main__":
     search: str = input("Search in mercado libre: ")
+    amount: int = int(input("How many products do you want to search?: "))
+
     scrapper = SearchScrapper()
-    scrapper.scrap_search(search, 10)
+    scrapper.scrap_search(search, amount)
