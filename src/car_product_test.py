@@ -3,7 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 if __name__ == "__main__":
-    test_url = "https://auto.mercadolibre.com.ar/MLA-1429720177-volkswagen-vento-25-luxury-170cv-tiptronic-2016-_JM#position=2&search_layout=grid&type=item&tracking_id=f777b562-def8-46df-9b51-cb9926a6a5c7"
+    test_url = "https://auto.mercadolibre.com.ar/MLA-1431662305-volkswagen-amarok-v6-highline-extreme-jt-_JM#position=2&search_layout=grid&type=item&tracking_id=70dc5ee1-520b-4085-b6ff-32e8c1e9a1d3"
     options = Options()
     options.add_argument('--headless')
     options.add_argument('--disable-gpu')
@@ -20,6 +20,7 @@ if __name__ == "__main__":
         "brand": "/html/body/main/div[2]/div[5]/div/div[2]/div[2]/div[1]/section/div[3]/div/div/div/div[1]/div[1]/table/tbody/tr[1]/td/span"
     }
 
+    product.webdriver_url()
     product.scrap_x_paths(x_paths)
     product.scrap_features_tables()
 

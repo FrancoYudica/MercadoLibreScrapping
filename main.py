@@ -1,9 +1,12 @@
-from search_scrapper import SearchScrapper
-from product_scrapper import ProductScrapper
+from src.search_scrapper import SearchScrapper
+from src.product_scrapper import ProductScrapper
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from typing import List, Dict
+from src.sheet_exporter import export_to_sheets
 import json
+import time
+from datetime import datetime
 
 def create_webdriver():
     options = Options()
@@ -47,12 +50,15 @@ def scrap_products(
 
 if __name__ == "__main__":
     search: str = input("Search in mercado libre: ")
+    amount: int = int(input("How many products do you want to search?: "))
+
+    start_time = time.time()
 
     # Scraps search, and gathers product URLs
     scrapper = SearchScrapper()
 
     print("--- SCRAPING SEARCH ---")
-    scrapper.scrap_search(search, 10)
+    scrapper.scrap_search(search, amount)
 
     # WebDriver, required when scrapping products
     webdriver = create_webdriver()
@@ -65,22 +71,20 @@ if __name__ == "__main__":
     # Scraps all the products
     print("--- SCRAPING PRODUCTS ---")
 
-    products: List[SearchScrapper] = scrap_products(
+    products: List[ProductScrapper] = scrap_products(
         scrapper.products_url, 
         webdriver, 
         named_x_paths, 
-        False)
+        True)
     
-    print("--- ALL PRODUCTS SCRAPPED ---")
+    print("--- EXPORTING TO SHEET ---")
 
-    # Creates a set containing the data labels of the products
-    all_product_attributes = set()
-    for product in products:
-        for attribute in product.data.keys():
-            all_product_attributes.add(attribute)
+    # Sets output filename with current datetime
+    now = datetime.today()
+    dt_string = now.strftime("%d-%m-%Y %H:%M:%S")
+    filename = f"results-{dt_string}.csv"
 
+    export_to_sheets(filename, products)
 
-    for attribute in all_product_attributes:
-        for product in products:
-            print(attribute, product.data[attribute] if attribute in product.data else None)
-
+    print(f"--- COMPLETED IN {time.time() - start_time} SECONDS ---")
+    print(f"Results saved in file: {filename}")

@@ -59,8 +59,6 @@ class SearchScrapper:
             a_element = li_next_element.find("a")
             url = a_element.get("href")
 
-        print("--- Search scrap completed ---")
-
 
 if __name__ == "__main__":
     search: str = input("Search in mercado libre: ")

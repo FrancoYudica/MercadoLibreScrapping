@@ -15,7 +15,7 @@ class ProductScrapper:
         self.timeout = 10
 
         # Stores data classified by features
-        self.data = {}
+        self.data = {"url": self.url}
 
     def webdriver_url(self):
         self.webdriver.get(self.url)

@@ -1,4 +1,12 @@
 {
+    "Año-Km-tiempo publicación" : "/html/body/main/div[2]/div[5]/div/div[1]/div/div[1]/div/div[1]/div/div[1]/span",
+    "Titulo": "/html/body/main/div[2]/div[5]/div/div[1]/div/div[1]/div/div[1]/div/div[2]/h1",
     "Precio": "//*[@id=\"price\"]/div/div/div/span/span/span[2]",
-    "Ubicación": "//*[@id=\"seller_profile\"]/ul/div[4]/div/p"
+    "Perfil vendedor": "//a[@class=\"ui-vip-profile-info__logo-container ui-vip-profile-info__logo-container-square\"]", 
+    "Ubicación": "//*[@id=\"seller_profile\"]/ul/div[4]/div/p",
+    "Color": "//div[@class=\"ui-vpp-highlighted-specs__attribute-columns\"]/div[1]/div[1]/div[1]/div[2]/p[1]/span[2]",
+    "Modelo": "//div[@class=\"ui-vpp-highlighted-specs__striped-specs\"]/div[1]/div[1]/table[1]/tbody[1]/tr[4]/td[1]/span[1]",
+    "Km": "//div[@class=\"ui-vpp-highlighted-specs__striped-specs\"]/div[1]/div[1]/table[1]/tbody[1]/tr[12]/td[1]/span[1]",
+    "Precio negociable": "//div[@class=\"ui-vpp-highlighted-specs__attribute-columns\"]/div[2]/div[4]/div[1]/div[2]/p[1]/span[2]",
+    "Permuta": "//div[@class=\"ui-vpp-highlighted-specs__attribute-columns\"]/div[1]/div[4]/div[1]/div[2]/p[1]/span[2]"
 }
