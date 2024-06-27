@@ -6,7 +6,7 @@ class SearchScrapper:
     Collects a set of URL from Mercado Libre search
     """
     def __init__(self) -> None:
-        self.products_url = []
+        self.products_url = set()
         self.scrapped_count = 0
 
 
@@ -28,7 +28,7 @@ class SearchScrapper:
             # Access link element <a></a>
             a_element = div_element.find("a", {"class": "ui-search-item__group__element ui-search-link__title-card ui-search-link"})
             url = a_element.get("href")
-            self.products_url.append(url)
+            self.products_url.add(url)
             self.scrapped_count += 1
 
             progress = int(self.scrapped_count / self.target_product_count * 100.0)
@@ -39,7 +39,7 @@ class SearchScrapper:
         
         url = source_url
         self.scrapped_count = 0
-        self.products_url = []
+        self.products_url.clear()
 
         while (self.scrapped_count < self.target_product_count):
             
