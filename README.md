@@ -60,6 +60,8 @@ Aplicación de consola que permite extraer N cantidad de URL de la búsqueda de 
     Search in mercado libre: Volkswagen Amarok 3.0 V6
     How many products do you want to search?: 10
     ```
+3. El resultado, archivo .csv, será almacenado en la carpeta `output`
+
 
 ## NamedXPaths
 El archivo NamedXPaths.json debe contener los XPath que deseas extraer en un formato de diccionario JSON. Ejemplo:
