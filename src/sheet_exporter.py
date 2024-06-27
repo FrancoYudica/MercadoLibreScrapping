@@ -1,8 +1,9 @@
 import csv
 from typing import List
 from src.product_scrapper import ProductScrapper
+from pathlib import Path
 
-def export_to_sheets(filename, products: List[ProductScrapper]):
+def export_to_sheets(filepath: Path, products: List[ProductScrapper]):
 
     # Creates a set containing the data labels of the products
     all_product_attributes = set()
@@ -37,6 +38,6 @@ def export_to_sheets(filename, products: List[ProductScrapper]):
     row_major_data = list(zip(*sorted_products_data))
 
     # Write data to CSV
-    with open(filename, mode='w', newline='') as file:
+    with open(filepath, mode='w', newline='') as file:
         writer = csv.writer(file)
         writer.writerows(row_major_data)

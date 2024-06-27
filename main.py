@@ -4,17 +4,24 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from typing import List, Dict
 from src.sheet_exporter import export_to_sheets
+from datetime import datetime
 import json
 import time
-from datetime import datetime
+import argparse
+from pathlib import Path
 
-def create_webdriver():
+def create_webdriver(headless: bool):
     options = Options()
-    options.add_argument('--headless')
-    options.add_argument('--disable-gpu')
-    options.add_argument('--no-sandbox')
+    
+    if headless:
+        # Run Chrome in headless mode (without a GUI)
+        options.add_argument('--headless')
+        options.add_argument('--disable-gpu')
+    
+    # Disable the use of /dev/shm (shared memory) to prevent out-of-space issues
     options.add_argument('--disable-dev-shm-usage') 
     
+    # Initialize and return the Chrome WebDriver with the specified options
     return webdriver.Chrome(options=options)
 
 def scrap_products(
@@ -49,6 +56,13 @@ def scrap_products(
     return products
 
 if __name__ == "__main__":
+
+    parser = argparse.ArgumentParser(description='Scrap Mercado Libre products and export to CSV.')
+    parser.add_argument('--table', action='store_true', help='Include this flag to scrap the features table')
+    parser.add_argument('--show_browser', action='store_true', help='Include this flag to scrap with browser UI')
+    parser.add_argument('--xpaths_file', type=str, help='Path to the JSON file containing the named XPaths')
+    args = parser.parse_args()
+
     search: str = input("Search in mercado libre: ")
     amount: int = int(input("How many products do you want to search?: "))
 
@@ -61,12 +75,20 @@ if __name__ == "__main__":
     scrapper.scrap_search(search, amount)
 
     # WebDriver, required when scrapping products
-    webdriver = create_webdriver()
+    webdriver = create_webdriver(not args.show_browser)
 
-    # Loads NamedXPaths from disk
     named_x_paths = dict()
-    with open("NamedXPaths.json", "r") as file:
-        named_x_paths = json.load(file)
+    
+    # Loads NamedXPaths from disk
+    if args.xpaths_file is not None:
+        
+        # In case folder "product_xpaths" is omitted
+        path = Path(args.xpaths_file)
+        if not path.exists():
+            path = Path("product_xpaths") / args.xpaths_file
+
+        with open(path, "r") as file:
+            named_x_paths = json.load(file)
 
     # Scraps all the products
     print("--- SCRAPING PRODUCTS ---")
@@ -75,16 +97,19 @@ if __name__ == "__main__":
         scrapper.products_url, 
         webdriver, 
         named_x_paths, 
-        True)
+        args.table)
     
     print("--- EXPORTING TO SHEET ---")
 
     # Sets output filename with current datetime
     now = datetime.today()
-    dt_string = now.strftime("%d-%m-%Y %H:%M:%S")
-    filename = f"results-{dt_string}.csv"
+    dt_string = now.strftime("%d-%m-%Y %H-%M-%S")
+    output_directory = Path("output")
+    output_directory.mkdir(parents=True, exist_ok=True)
+    filename = f"{dt_string}({search})(n={amount}).csv"
+    filepath = output_directory / filename
 
-    export_to_sheets(filename, products)
+    export_to_sheets(filepath, products)
 
     print(f"--- COMPLETED IN {time.time() - start_time} SECONDS ---")
     print(f"Results saved in file: {filename}")

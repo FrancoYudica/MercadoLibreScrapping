@@ -1,4 +1,4 @@
-from product_scrapper import ProductScrapper
+from src.product_scrapper import ProductScrapper
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 

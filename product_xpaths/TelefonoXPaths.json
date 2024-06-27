@@ -1,0 +1,4 @@
+{
+    "Titulo": "//*[@id=\"ui-pdp-main-container\"]/div[1]/div/div[1]/div[2]/div[1]/div/div[2]/h1",
+    "Precio": "//*[@id=\"ui-pdp-main-container\"]/div[1]/div/div[1]/div[2]/div[2]/div[1]/div[1]/span/span/span[2]"
+}

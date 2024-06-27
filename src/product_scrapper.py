@@ -53,7 +53,10 @@ class ProductScrapper:
             # Scroll element into view in order to click
             self.webdriver.execute_script("arguments[0].scrollIntoView();", button)
 
-            button.click()
+            try:
+                button.click()
+            except Exception:
+                return False
 
             # Wait for the div with the class "ui-vpp-striped-specs__table" to be present
             WebDriverWait(self.webdriver, self.timeout).until(
@@ -62,7 +65,7 @@ class ProductScrapper:
         except TimeoutException:
             print("Timed out waiting for button or specs table to load")
             return False
-
+    
         # Get page source and parse with BeautifulSoup
         soup = BeautifulSoup(self.webdriver.page_source, "html.parser")
 
