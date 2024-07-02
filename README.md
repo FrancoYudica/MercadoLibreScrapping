@@ -35,7 +35,7 @@ Aplicación de consola que permite extraer N cantidad de URL de la búsqueda de 
     ```
 
 4. Asegúrate de tener el driver de Chrome para Selenium:
-    - Descárgalo desde [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/downloads).
+    - Descárgalo desde [ChromeDriver](https://sites.google.com/chromium.org/driver).
     - Colócalo en tu PATH o en la carpeta del proyecto.
 
 ## Uso
