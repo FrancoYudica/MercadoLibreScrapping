@@ -19,7 +19,7 @@ Aplicación de consola que permite extraer N cantidad de URL de la búsqueda de 
 
 1. Clona este repositorio:
     ```bash
-    git clone https://github.com/tu-usuario/MercadoLibreScrapping.git
+    git clone https://github.com/FrancoYudica/MercadoLibreScrapping.git
     cd MercadoLibreScrapping
     ```
 
