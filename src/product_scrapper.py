@@ -89,3 +89,20 @@ class ProductScrapper:
                 self.data[div_with_row_name.text] = div_with_row_value.text
 
         return True
+    
+
+    def scrap_images(self, image_count=1) -> bool:
+        # Get page source and parse with BeautifulSoup
+        soup = BeautifulSoup(self.webdriver.page_source, "html.parser")
+        images = soup.find_all("img", {"class": "ui-pdp-image ui-pdp-gallery__figure__image"})
+
+        for i, image in enumerate(images):
+            
+            if i == image_count:
+                break
+
+            if "src" in image.attrs:
+                image_url = image["src"]
+                self.data[f"image_{i}"] = image_url
+        
+        return True

@@ -28,7 +28,8 @@ def scrap_products(
         urls: List[str], 
         webdriver,
         x_paths: Dict[str, str],
-        scrap_features_table: bool = True
+        scrap_features_table: bool = True,
+        max_image_count: int = 1
         ) -> List[ProductScrapper]:
     
     # Iterates through all URLs and scraps the product
@@ -49,6 +50,9 @@ def scrap_products(
         if scrap_features_table:
             success &= product_scrapper.scrap_features_tables()
 
+        # Scraps images if possible
+        product_scrapper.scrap_images(max_image_count)
+
         # Only adds product if it was correctly scrapped
         if success:
             products.append(product_scrapper)
@@ -61,8 +65,8 @@ if __name__ == "__main__":
     parser.add_argument('--table', action='store_true', help='Include this flag to scrap the features table')
     parser.add_argument('--show_browser', action='store_true', help='Include this flag to scrap with browser UI')
     parser.add_argument('--xpaths_file', type=str, help='Path to the JSON file containing the named XPaths')
+    parser.add_argument('--images', type=int, help='Sets the maximum amount of scrapped product images')
     args = parser.parse_args()
-
     search: str = input("Search in mercado libre: ")
     amount: int = int(input("How many products do you want to search?: "))
 
@@ -97,7 +101,8 @@ if __name__ == "__main__":
         scrapper.products_url, 
         webdriver, 
         named_x_paths, 
-        args.table)
+        args.table,
+        args.images if args.images is not None else 1)
     
     print("--- EXPORTING TO SHEET ---")
 

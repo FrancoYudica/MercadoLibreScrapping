@@ -45,6 +45,7 @@ Aplicación de consola que permite extraer N cantidad de URL de la búsqueda de 
 - `--table`: Incluye esta bandera para extraer las tablas de características.
 - `--show_browser`: Incluye esta bandera para mostrar la interfaz del navegador durante el scraping.
 - `--xpaths_file`: Especifica la ruta al archivo JSON que contiene los XPath nombrados.
+- `--images`: Especifica la cantidad de URL de imágenes extraidas de la página de producto.
 
 ### Ejecución
 
